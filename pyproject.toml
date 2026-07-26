@@ -1,0 +1,13 @@
+[project]
+name = "system-indentification-with-nn-fuzzy"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "mediapipe>=0.10.35",
+    "numpy>=2.5.1",
+    "opencv-python>=5.0.0.93",
+    "pandas>=3.0.5",
+    "pyyaml>=6.0.3",
+]

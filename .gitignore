@@ -1,0 +1,70 @@
+### Python ###
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+.venv/
+venv/
+env/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+### Jupyter ###
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+### MATLAB ###
+*.asv
+*.m~
+octave-workspace
+# Keep .m and .mlx source files tracked; only ignore MATLAB junk above
+
+### OS / editor cruft ###
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+### Large raw/processed datasets (tracked via Git LFS or external storage instead) ###
+data/
+!data/**/*.py
+!data/**/*.md
+qc-with-matlab/**/*.mat
+quantum/*.mat
+neural_network/*.mat
+neural_network/processed_data_*.mat
+
+### Compressed dataset/submission archives ###
+*.zip
+!requirements.txt
+
+### Large model weights ###
+models/*.task
+models/**/*.task
+
+### MATLAB figure outputs (regenerable) ###
+result/*.fig
+
+### Generated documents / reports (regenerable from source, keep source only) ###
+*.docx
+*.pdf
+!qc-with-matlab/**/*.pdf
+!qc-with-matlab/**/Theory\ Lectures/*.pdf
+
+### Local config overrides ###
+config/config.local.yaml
+.env
+
+### Camera/runtime caches ###
+camera/__pycache__/
+detector/__pycache__/
+config/__pycache__/
+
+### uv
+uv.lock
+
+### qc-matlab
+qc-with-matlab/

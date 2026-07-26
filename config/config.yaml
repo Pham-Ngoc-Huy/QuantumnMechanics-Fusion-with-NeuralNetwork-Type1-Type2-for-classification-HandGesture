@@ -1,0 +1,2 @@
+model_path: "models/hand_landmarker.task"
+fps: 30
