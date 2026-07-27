@@ -1,21 +1,22 @@
 import cv2
-HAND_CONNECTIONS = [
-    (0,1),(1,2),(2,3),(3,4),
-    (0,5),(5,6),(6,7),(7,8),
-    (5,9),(9,10),(10,11),(11,12),
-    (9,13),(13,14),(14,15),(15,16),
-    (13,17),(17,18),(18,19),(19,20),
-    (0,17)
-]
+from config.config import Config
+from log import logger
+from virtual_sensor.geometry import (
+    EstimatePalmPlaneCross, 
+    ProjectToPalmPlane, 
+    AngleBetweenCosine
+)
+import numpy as np
+
 class LandmarkPrinter:
     def __call__(self, result, output_image, timestamp):
         if len(result.hand_landmarks) == 0:
             return
-        print("="*80)
-        print(f"Timestamp: {timestamp}")
+        logger.info("="*80)
+        logger.info(f"Timestamp: {timestamp}")
         hand=result.hand_landmarks[0]
         for idx, lm in enumerate(hand):
-            print(
+            logger.info(
                 f"{idx:02d} "
                 f"x={lm.x:.4f} "
                 f"y={lm.y:.4f} "
@@ -23,27 +24,45 @@ class LandmarkPrinter:
             )
 
 class LandmarkVisualizer:
-    def __init__(self):
+    def __init__(self, config):
         self.result=None
+        self.config=config
+        self.connections = self.config.connections
+        self.plane_estimator = EstimatePalmPlaneCross()
+        self.projector = ProjectToPalmPlane()
+        self.angle = AngleBetweenCosine()
+
     def __call__(self, result, output_image, timestamp):
         self.result=result
         if not result.hand_landmarks:
+            self.landmarks = None
             return
+
+        hand = result.hand_landmarks[0]
+        self.landmarks = np.array(
+            [[lm.x, lm.y, lm.z] for lm in hand],
+            dtype=np.float32
+        )
+
         for idx, lm in enumerate(result.hand_landmarks[0]):
-            print(
+            logger.info(
                 f"{idx:02d} "
                 f"x={lm.x:.4f} "
                 f"y={lm.y:.4f} "
                 f"z={lm.z:.4f}"
             )
-        print("Callback")
+        logger.info("Callback")
 
     def draw(self, frame):
         if self.result is None:
             return
 
         for hand in self.result.hand_landmarks:
-            self._draw_hand(frame, hand)
+            self._draw_hand(frame=frame, hand_landmarks=hand)
+
+        self._draw_palm_plane(frame=frame)
+        self._draw_project_to_palm_plane(frame=frame)
+        self._draw_angle_calculation(frame=frame)
 
     def _draw_hand(self, frame, hand_landmarks):
         h, w = frame.shape[:2]
@@ -58,8 +77,8 @@ class LandmarkVisualizer:
             points.append((x, y))
     
             cv2.circle(frame, (x, y), 4, (0,255,0), -1)
-    
-        for start, end in HAND_CONNECTIONS:
+
+        for start, end in self.connections:
     
             cv2.line(
                 frame,
@@ -68,4 +87,214 @@ class LandmarkVisualizer:
                 (255,0,0),
                 2
             )
-        
+
+    def _draw_angle_calculation(self, frame):
+        """
+        @brief Visualize angle calculation between two projected finger vectors.
+
+        Red   : Index finger vector
+        Green : Middle finger vector
+        White : Included angle
+        """
+        h, w = frame.shape[:2]
+        if self.result.hand_landmarks:
+            _, normal = self.plane_estimator.estimate(self.landmarks)
+            index_start = self.landmarks[5]
+            index_end   = self.landmarks[6]
+
+            middle_start = self.landmarks[9]
+            middle_end   = self.landmarks[10]
+
+            index_vector = index_end - index_start
+            middle_vector = middle_end - middle_start
+
+            index_proj = self.projector.project(
+                vector=index_vector,
+                plane_normal=normal
+            )
+
+            middle_proj = self.projector.project(
+                vector=middle_vector,
+                plane_normal=normal
+            )
+
+            angle = self.angle.calculate(
+                index_proj,
+                middle_proj
+            )
+
+            scale = 0.20
+
+            index_start_px = (
+                int(index_start[0] * w),
+                int(index_start[1] * h)
+            )
+
+            middle_start_px = (
+                int(middle_start[0] * w),
+                int(middle_start[1] * h)
+            )
+
+            index_end_px = (
+                int((index_start[0] + index_proj[0] * scale) * w),
+                int((index_start[1] + index_proj[1] * scale) * h)
+            )
+
+            middle_end_px = (
+                int((middle_start[0] + middle_proj[0] * scale) * w),
+                int((middle_start[1] + middle_proj[1] * scale) * h)
+            )
+
+            cv2.arrowedLine(
+                frame,
+                index_start_px,
+                index_end_px,
+                (0, 0, 255),
+                2,
+                tipLength=0.2
+            )
+
+            cv2.arrowedLine(
+                frame,
+                middle_start_px,
+                middle_end_px,
+                (0, 255, 0),
+                2,
+                tipLength=0.2
+            )
+
+            text_pos = (
+                int((index_start_px[0] + middle_start_px[0]) / 2),
+                int((index_start_px[1] + middle_start_px[1]) / 2) - 20
+            )
+
+            cv2.putText(
+                frame,
+                f"{angle:.1f} deg",
+                text_pos,
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.7,
+                (255, 255, 255),
+                2
+            )
+    
+    def _draw_project_to_palm_plane(self, frame):
+        """
+        @brief Visualize vector projection onto the palm plane.
+            Red: Original finger vector
+            Green: Projected vector on palm plane
+        """
+
+        h, w = frame.shape[:2]
+        if self.result.hand_landmarks:
+            # Estimate palm plane
+            center, normal = self.plane_estimator.estimate(self.landmarks)
+
+            start = self.landmarks[5]
+            end = self.landmarks[6]
+
+            finger_vector = end - start
+
+            projected = self.projector.project(
+                vector=finger_vector,
+                plane_normal=normal
+            )
+
+            start_px = (
+                int(start[0] * w),
+                int(start[1] * h)
+            )
+
+            scale = 0.25
+
+            end_original = start + finger_vector * scale
+            end_projected = start + projected * scale
+
+            end_original_px = (
+                int(end_original[0] * w),
+                int(end_original[1] * h)
+            )
+
+            end_projected_px = (
+                int(end_projected[0] * w),
+                int(end_projected[1] * h)
+            )
+
+            cv2.arrowedLine(
+                frame,
+                start_px,
+                end_original_px,
+                (0, 0, 255),
+                2,
+                tipLength=0.2
+            )
+
+
+            cv2.arrowedLine(
+                frame,
+                start_px,
+                end_projected_px,
+                (0, 255, 0),
+                2,
+                tipLength=0.2
+            )
+
+            cv2.putText(
+                frame,
+                "Projection",
+                (start_px[0] + 10, start_px[1] - 10),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.5,
+                (0, 255, 0),
+                2
+            )
+
+    def _draw_palm_plane(self, frame):
+        """
+        @brief Draw palm center and palm normal.
+            Red Dot: Palm center
+            Yellow Line: Palm normal (projected to image plane)
+        """
+
+        h, w = frame.shape[:2]
+        # Estimate palm plane
+        if self.result.hand_landmarks:
+            center, normal = self.plane_estimator.estimate(self.landmarks)
+            # Convert normalized coordinates to image pixels
+            center_px = (
+                int(center[0] * w),
+                int(center[1] * h)
+            )
+            scale = 0.15  # length in normalized coordinate: đủ để thấy được vector
+            end = center + normal * scale
+            end_px = (
+                int(end[0] * w),
+                int(end[1] * h)
+            )
+            # Palm center
+            cv2.circle(
+                frame,
+                center_px,
+                6,
+                (0, 0, 255),      # Red
+                -1
+            )
+            # Palm normal
+            cv2.arrowedLine(
+                frame,
+                center_px,
+                end_px,
+                (0, 255, 255),    # Yellow
+                2,
+                tipLength=0.2
+            )
+            # Debug text
+            cv2.putText(
+                frame,
+                "Palm-Plane",
+                (center_px[0] + 10, center_px[1] - 10),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.5,
+                (0, 255, 255),
+                2
+            )

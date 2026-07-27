@@ -7,14 +7,14 @@
   
     => The goal is to build a simple project that demonstrates how `quantum mechanics` concepts can be applied in `machine learning` without relying on `built-in functions`, helping to develop an intuitive understanding of how quantum systems work.  
     - In this Quantum Mechanics, we will get use with `Kronecker product` whereas:
-    ![alt text](kronecker_product_example.png)
+    ![alt text](pic/kronecker_product_example.png)
         ### Why Quantum Computing Uses Kronecker Product Instead of Normal Matrix Multiplication
 
         Quantum computation uses **qubits** instead of classical bits. Unlike classical bits that can only be `0` or `1`, a qubit can exist in a **superposition** of both states:
 
-        $
+        ```math
         |\psi\rangle = \alpha |0\rangle + \beta |1\rangle
-        $
+        ```
 
         where:
 
@@ -31,9 +31,9 @@
 
         For example, a 2-qubit system must represent:
 
-        $
+        ```math
         |00\rangle,\ |01\rangle,\ |10\rangle,\ |11\rangle
-        $
+        ```
 
         This corresponds to a **4-dimensional space**.
 
@@ -45,9 +45,9 @@
 
         To correctly combine quantum systems, we use the **Kronecker product**, also known as the tensor product.
 
-        $
+        ```math
         |\psi_{total}\rangle = |\psi_1\rangle \otimes |\psi_2\rangle
-        $
+        ```
 
         This operation creates a new vector that represents the full joint quantum system.
 
@@ -70,19 +70,20 @@
 
         Single qubit state:
 
-        $
+        ```math
         |0\rangle =
         \begin{bmatrix}
         1\\
         0
         \end{bmatrix}
-        $
+        ```
+
 
         Two qubits:
 
-        $
+        ```math
         |00\rangle = |0\rangle \otimes |0\rangle
-        $
+        ```
 
         MATLAB example:
 
@@ -92,3 +93,20 @@
   This topic focuses on understanding `mathbase` of neural network foundation and it varitations including `type 2` and `fuzzy` for the Lower Limb Exoskeleton dataset.  
   
     => The goal is to build a predicted action from the input of users to guess what is the next action (the subjects we focus on both `male` and `female` - no age limit)
+
+### **Rework-Some Product**:
+**Short about this**: 
+
+I realize my work will not be approved if I dont have any products or real things apply that can see/bring to users that will show my research reliable :(
+
+So, I come up with this project.
+
+> After develop the `Gesture Training` for self-build MLP Neural Network Model - I would like to use it to perform a `REAL MVP` about **Digital Twin with Glove-Sensors**
+
+This is an example about the way it would work:
+
+**1. Every first development geometry about the Project-Plane and Estimate the Palm-Plane**
+![alt text](pic/sample-mvp.png)
+
+**2. Calculated the Angle between Vectors in Project-Plane and Palm-Plane**
+![alt text](pic/sample-mvp-v2.png)

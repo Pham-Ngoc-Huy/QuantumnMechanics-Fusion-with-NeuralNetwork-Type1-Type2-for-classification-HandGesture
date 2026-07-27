@@ -1,2 +1,194 @@
 model_path: "models/hand_landmarker.task"
 fps: 30
+connections:
+  # Thumb
+  - [0, 1]
+  - [1, 2]
+  - [2, 3]
+  - [3, 4]
+
+  # Index
+  - [0, 5]
+  - [5, 6]
+  - [6, 7]
+  - [7, 8]
+
+  # Middle
+  - [5, 9]
+  - [9, 10]
+  - [10, 11]
+  - [11, 12]
+
+  # Ring
+  - [9, 13]
+  - [13, 14]
+  - [14, 15]
+  - [15, 16]
+
+  # Little
+  - [13, 17]
+  - [17, 18]
+  - [18, 19]
+  - [19, 20]
+
+  # Palm
+  - [0, 17]
+
+sensors:
+
+  # --------------------------------------------------------
+  # Thumb
+  # --------------------------------------------------------
+
+  cmc1_f:
+    type: flexion
+    parent: 0
+    joint: 1
+    child: 2
+
+  cmc1_a:
+    type: abduction
+    parent: 0
+    joint: 1
+    child: 2
+
+  mcp1:
+    type: flexion
+    parent: 1
+    joint: 2
+    child: 3
+
+  ip1:
+    type: flexion
+    parent: 2
+    joint: 3
+    child: 4
+
+  # --------------------------------------------------------
+  # Index
+  # --------------------------------------------------------
+
+  mcp2_f:
+    type: flexion
+    parent: 0
+    joint: 5
+    child: 6
+
+  mcp2_a:
+    type: abduction
+    parent: 0
+    joint: 5
+    child: 6
+    enabled: false      # Dataset column is NaN
+
+  pip2:
+    type: flexion
+    parent: 5
+    joint: 6
+    child: 7
+
+  dip2:
+    type: flexion
+    parent: 6
+    joint: 7
+    child: 8
+
+  # --------------------------------------------------------
+  # Middle
+  # --------------------------------------------------------
+
+  mcp3_f:
+    type: flexion
+    parent: 0
+    joint: 9
+    child: 10
+
+  pip3:
+    type: flexion
+    parent: 9
+    joint: 10
+    child: 11
+
+  dip3:
+    type: flexion
+    parent: 10
+    joint: 11
+    child: 12
+
+  # --------------------------------------------------------
+  # Ring
+  # --------------------------------------------------------
+
+  mcp4_f:
+    type: flexion
+    parent: 0
+    joint: 13
+    child: 14
+
+  mcp4_a:
+    type: abduction
+    parent: 0
+    joint: 13
+    child: 14
+
+  pip4:
+    type: flexion
+    parent: 13
+    joint: 14
+    child: 15
+
+  dip4:
+    type: flexion
+    parent: 14
+    joint: 15
+    child: 16
+
+  # --------------------------------------------------------
+  # Little
+  # --------------------------------------------------------
+
+  cmc5:
+    type: flexion
+    parent: 0
+    joint: 17
+    child: 18
+
+  mcp5_f:
+    type: flexion
+    parent: 0
+    joint: 17
+    child: 18
+
+  mcp5_a:
+    type: abduction
+    parent: 0
+    joint: 17
+    child: 18
+
+  pip5:
+    type: flexion
+    parent: 17
+    joint: 18
+    child: 19
+
+  dip5:
+    type: flexion
+    parent: 18
+    joint: 19
+    child: 20
+
+  # --------------------------------------------------------
+  # Wrist
+  # --------------------------------------------------------
+
+  wrist_f:
+    type: wrist_flexion
+    parent: null
+    joint: 0
+    child: null
+
+  wrist_a:
+    type: wrist_abduction
+    parent: null
+    joint: 0
+    child: null

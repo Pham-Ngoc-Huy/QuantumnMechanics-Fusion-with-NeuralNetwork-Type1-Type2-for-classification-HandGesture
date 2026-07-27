@@ -17,3 +17,11 @@ class Config:
     @property
     def fps(self):
         return self.data["fps"]
+
+    @property
+    def connections(self):
+        return self.data['connections']
+
+    @property
+    def sensors(self):
+        return self.data['sensors']

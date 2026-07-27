@@ -2,11 +2,13 @@ from config.config import Config
 from camera.webcam import Webcam
 from detector.callback import LandmarkVisualizer
 from detector.hand_landmarker import HandLandmarkerDetector
+from virtual_sensor.geometry.estimate_palm_plane import EstimatePalmPlaneCross
 import cv2
 
 def main():
     config=Config("config/config.yaml")
-    callback=LandmarkVisualizer()
+
+    callback=LandmarkVisualizer(config=config)
 
     with HandLandmarkerDetector(
             model_path=config.model_path,
