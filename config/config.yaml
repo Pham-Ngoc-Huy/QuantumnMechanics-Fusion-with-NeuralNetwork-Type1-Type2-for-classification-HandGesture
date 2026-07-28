@@ -36,10 +36,7 @@ connections:
 
 sensors:
 
-  # --------------------------------------------------------
   # Thumb
-  # --------------------------------------------------------
-
   cmc1_f:
     type: flexion
     parent: 0
@@ -51,6 +48,7 @@ sensors:
     parent: 0
     joint: 1
     child: 2
+    ref_finger: [0,5,6] 
 
   mcp1:
     type: flexion
@@ -64,10 +62,7 @@ sensors:
     joint: 3
     child: 4
 
-  # --------------------------------------------------------
   # Index
-  # --------------------------------------------------------
-
   mcp2_f:
     type: flexion
     parent: 0
@@ -79,6 +74,7 @@ sensors:
     parent: 0
     joint: 5
     child: 6
+    ref_finger: [0,9,10]
     enabled: false      # Dataset column is NaN
 
   pip2:
@@ -93,10 +89,7 @@ sensors:
     joint: 7
     child: 8
 
-  # --------------------------------------------------------
   # Middle
-  # --------------------------------------------------------
-
   mcp3_f:
     type: flexion
     parent: 0
@@ -115,10 +108,7 @@ sensors:
     joint: 11
     child: 12
 
-  # --------------------------------------------------------
   # Ring
-  # --------------------------------------------------------
-
   mcp4_f:
     type: flexion
     parent: 0
@@ -130,6 +120,7 @@ sensors:
     parent: 0
     joint: 13
     child: 14
+    ref_finger: [0,9,10]
 
   pip4:
     type: flexion
@@ -143,10 +134,7 @@ sensors:
     joint: 15
     child: 16
 
-  # --------------------------------------------------------
   # Little
-  # --------------------------------------------------------
-
   cmc5:
     type: flexion
     parent: 0
@@ -164,6 +152,7 @@ sensors:
     parent: 0
     joint: 17
     child: 18
+    ref_finger: [0,13,14]
 
   pip5:
     type: flexion
@@ -177,18 +166,15 @@ sensors:
     joint: 19
     child: 20
 
-  # --------------------------------------------------------
   # Wrist
-  # --------------------------------------------------------
+  # wrist_f:
+  #   type: wrist_flexion
+  #   parent: null
+  #   joint: 0
+  #   child: null
 
-  wrist_f:
-    type: wrist_flexion
-    parent: null
-    joint: 0
-    child: null
-
-  wrist_a:
-    type: wrist_abduction
-    parent: null
-    joint: 0
-    child: null
+  # wrist_a:
+  #   type: wrist_abduction
+  #   parent: null
+  #   joint: 0
+  #   child: null

@@ -110,3 +110,6 @@ This is an example about the way it would work:
 
 **2. Calculated the Angle between Vectors in Project-Plane and Palm-Plane**
 ![alt text](pic/sample-mvp-v2.png)
+
+**3. Start adding-in virtual sensors generators by calculating physics/math equation**
+![alt text](pic/virtual_sensors.png)
