@@ -22,6 +22,7 @@ class Webcam:
         return frame, mp_image
 
     def show(self, frame):
+        
         cv2.imshow(
             "Virtual Sensor Glove",
             frame

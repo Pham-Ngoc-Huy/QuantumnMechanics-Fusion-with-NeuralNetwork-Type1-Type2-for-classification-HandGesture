@@ -11,6 +11,10 @@ class Config:
         return self.data["model_path"]
 
     @property
+    def model_gesture(self):
+        return self.data['model_gesture']
+
+    @property
     def frame_interval(self):
         return self.data["frame_interval"]
 
@@ -25,3 +29,10 @@ class Config:
     @property
     def sensors(self):
         return self.data['sensors']
+
+    @property
+    def dimension_activities(self):
+        return {
+            item["classes"]: item["activities"]
+            for item in self.data["dimension_activities"]
+        }

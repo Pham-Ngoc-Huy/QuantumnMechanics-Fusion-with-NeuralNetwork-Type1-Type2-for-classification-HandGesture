@@ -113,3 +113,14 @@ This is an example about the way it would work:
 
 **3. Start adding-in virtual sensors generators by calculating physics/math equation**
 ![alt text](pic/virtual_sensors.png)
+
+**4. Converting vector into feature that input for MATLAB model**
+![alt text](pic/feature_vector.png)
+
+**5. Training process with MATLAB self-built model**
+![alt text](pic/training_process_model.png)
+
+**6. Predict based on Digital Twin**
+![alt text](pic/predictive.png)
+
+>This is still not as my imagination, i mean the Digital Twins part, the model is reflected quite well, but when want to improve we need more efficient rather than 90%

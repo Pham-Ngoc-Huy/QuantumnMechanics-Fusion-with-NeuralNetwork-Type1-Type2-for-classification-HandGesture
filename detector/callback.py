@@ -7,6 +7,8 @@ from virtual_sensor.geometry import (
     AngleBetweenCosine
 )
 from virtual_sensor.generator import GenerateVirtualSensor
+from virtual_sensor.vectorize import MatlabFeatureVector
+from virtual_sensor.classifier import GestureClassifier
 import numpy as np
 
 class LandmarkPrinter:
@@ -28,6 +30,7 @@ class LandmarkVisualizer:
     def __init__(self, config):
         self.result=None
         self.config=config
+        self.sensors_arrangement=self.config.sensors
         self.connections=self.config.connections
         self.landmarks=None
         self.projector=ProjectToPalmPlane()
@@ -35,6 +38,9 @@ class LandmarkVisualizer:
         # projector
         self.plane_estimator=EstimatePalmPlaneCross()
         self.generator=GenerateVirtualSensor()
+        self.vectorize=MatlabFeatureVector()
+        self.classifier=GestureClassifier(model_path=self.config.model_gesture)
+        self.dimension_activities=self.config.dimension_activities
 
     def __call__(self, result, output_image, timestamp):
         self.result=result
@@ -67,6 +73,15 @@ class LandmarkVisualizer:
             palm_normal=normal
         )
 
+        feature_vector = self.vectorize.convert(
+            config=self.sensors_arrangement,
+            sensors=sensors
+        )
+
+        gesture_class, confidence = self.classifier.predict(
+            feature_vector
+        )
+        activity = self.dimension_activities[gesture_class]
         for hand in self.result.hand_landmarks:
             self._draw_hand(
                 frame=frame, 
@@ -89,6 +104,86 @@ class LandmarkVisualizer:
             frame=frame, 
             sensors=sensors
         )
+        self._draw_feature_vector(
+            frame=frame,
+            feature_vector=feature_vector
+        )
+
+        self._draw_prediction(
+            frame=frame,
+            gesture_class=gesture_class,
+            activity=activity,
+            confidence=confidence
+        )
+
+    def _draw_prediction(
+        self,
+        frame,
+        gesture_class,
+        activity,
+        confidence
+    ):
+
+        cv2.putText(
+            frame,
+            f"Gesture : {gesture_class}",
+            (20,430),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.8,
+            (0,255,255),
+            2
+        )
+
+        cv2.putText(
+            frame,
+            f"Activity : {activity}",
+            (20,460),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.8,
+            (0,255,255),
+            2
+        )
+
+        cv2.putText(
+            frame,
+            f"Confidence : {confidence:.2%}",
+            (20,490),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.7,
+            (255,255,255),
+            2
+        )
+
+    def _draw_feature_vector(self, frame, feature_vector):
+        x = frame.shape[1] - 250
+        y = 30
+        cv2.putText(
+            frame,
+            "MATLAB-feature-vectors",
+            (x,y),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.7,
+            (0,255,255),
+            2
+        )
+
+        y += 30
+
+        for i, value in enumerate(feature_vector):
+            cv2.putText(
+                frame,
+                f"[{i:02d}] {value:6.1f}",
+                (x, y),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.45,
+                (255,255,255),
+                1
+            )
+
+            y += 20
+
+            if y > frame.shape[0] - 20:
+                break
 
     def _draw_virtual_sensor(self, frame, sensors):
         x=20

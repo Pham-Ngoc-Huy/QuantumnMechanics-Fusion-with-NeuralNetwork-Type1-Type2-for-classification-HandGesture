@@ -1,4 +1,5 @@
 model_path: "models/hand_landmarker.task"
+model_gesture: "models/gesture_model.mat"
 fps: 30
 connections:
   # Thumb
@@ -177,4 +178,128 @@ sensors:
   #   type: wrist_abduction
   #   parent: null
   #   joint: 0
-  #   child: null
+  #   child: null  
+
+dimension_activities:
+  - classes: 200
+    activities: "Unknown"
+    
+  - classes: 201
+    activities: "Thumb up"
+
+  - classes: 202
+    activities: "Extension of index and middle, flexion of the others"
+
+  - classes: 203
+    activities: "Flexion of ring and little finger, extension of the others"
+
+  - classes: 204
+    activities: "Thumb opposing base of little finger"
+
+  - classes: 205
+    activities: "Abduction of all fingers"
+
+  - classes: 206
+    activities: "Fingers flexed together in fist"
+
+  - classes: 207
+    activities: "Pointing index"
+
+  - classes: 208
+    activities: "Adduction of extended fingers"
+
+  - classes: 209
+    activities: "Wrist supination (axis: middle finger)"
+
+  - classes: 210
+    activities: "Wrist pronation (axis: middle finger)"
+
+  - classes: 211
+    activities: "Wrist supination (axis: little finger)"
+
+  - classes: 212
+    activities: "Wrist pronation (axis: little finger)"
+
+  - classes: 213
+    activities: "Wrist flexion"
+
+  - classes: 214
+    activities: "Wrist extension"
+
+  - classes: 215
+    activities: "Wrist extension with closed hand"
+
+  - classes: 216
+    activities: "Wrist ulnar deviation"
+
+  - classes: 217
+    activities: "Wrist radial deviation"
+  
+  - classes: 301
+    activities: "Large diameter grasp"
+
+  - classes: 302
+    activities: "Small diameter grasp (power grip)"
+
+  - classes: 303
+    activities: "Fixed hook grasp"
+
+  - classes: 304
+    activities: "Index finger extension grasp"
+
+  - classes: 305
+    activities: "Medium wrap"
+
+  - classes: 306
+    activities: "Ring grasp"
+
+  - classes: 307
+    activities: "Prismatic four fingers grasp"
+
+  - classes: 308
+    activities: "Stick grasp"
+
+  - classes: 309
+    activities: "Writing tripod grasp"
+
+  - classes: 310
+    activities: "Power sphere grasp"
+
+  - classes: 311
+    activities: "Three finger sphere grasp"
+
+  - classes: 312
+    activities: "Precision sphere grasp"
+
+  - classes: 313
+    activities: "Tripod grasp"
+
+  - classes: 314
+    activities: "Prismatic pinch grasp"
+
+  - classes: 315
+    activities: "Tip pinch grasp"
+
+  - classes: 316
+    activities: "Quadpod grasp"
+
+  - classes: 317
+    activities: "Lateral grasp"
+
+  - classes: 318
+    activities: "Parallel extension grasp"
+
+  - classes: 319
+    activities: "Extension type grasp"
+
+  - classes: 320
+    activities: "Power disk grasp"
+
+  - classes: 321
+    activities: "Open a bottle with a tripod grasp"
+
+  - classes: 322
+    activities: "Turn a screw (grasp the screwdriver with a stick grasp)"
+
+  - classes: 323
+    activities: "Cut something (grasp the knife with an index finger extension grasp)"
