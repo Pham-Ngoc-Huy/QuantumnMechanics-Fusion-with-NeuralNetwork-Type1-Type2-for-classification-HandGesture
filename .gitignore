@@ -11,6 +11,9 @@ env/
 .pytest_cache/
 .ruff_cache/
 
+### literature review
+literature_review/
+
 ### Jupyter ###
 .ipynb_checkpoints/
 */.ipynb_checkpoints/*

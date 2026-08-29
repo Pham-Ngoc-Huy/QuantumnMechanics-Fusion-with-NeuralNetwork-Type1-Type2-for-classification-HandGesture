@@ -16,8 +16,8 @@ def main():
         ) as detector:
 
         with Webcam() as camera:
-            timestamp = 0
 
+            timestamp = 0   
             while True:
                 result = camera.read()
 

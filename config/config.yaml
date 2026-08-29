@@ -1,6 +1,39 @@
 model_path: "models/hand_landmarker.task"
 model_gesture: "models/gesture_model.mat"
 fps: 30
+hand_landmarks_metadata:
+  # mcp: stands for `metacarpophalangeal` joint
+    # vietnamese: khớp bàn - ngón tay (hay còn gọi là khớp đốt ngón gần gốc nhất, chính là khớp xương "nắm đấm" khi bạn nắm tay lại)
+  # pip: stands for `proximal interphalageal` joint
+    # vietnamese: khớp liên ngón gần (Khớp đốt ngón tay ở giữa, nằm gần lòng bàn tay hơn so với khớp chót)
+  # dip: stands for `distal interphalangeal` joint
+    # vietnamese: khớp liên ngon xa (khớp đốt ngón tay nằm gần móng tay/ đầu ngón tay nhất)
+  # tip: stands for `finger-tip`
+    # vietnamese: đầu ngón tay (điểm mút cùng của ngón tay)
+  # cmc: stands for `carpometacarpal` joint 
+    # vietnamese: khớp cổ - bàn tay (khớp nối giữa các xương cổ tay và xương bàn tay)
+  - 0: wrist
+  - 1: thumb_cmc
+  - 2: thumb_mcp
+  - 3: thumb_ip
+  - 4: thumb_tip
+  - 5: index_finger_mcp
+  - 6: index_finger_pip
+  - 7: index_finger_dip
+  - 8: index_finger_tip
+  - 9: middle_finger_mcp
+  - 10: middle_finger_pip
+  - 11: middle_finger_dip
+  - 12: middle_finger_tip
+  - 13: ring_finger_mcp
+  - 14: ring_finger_pip
+  - 15: ring_finger_dip
+  - 16: ring_finger_tip
+  - 17: pinky_mcp
+  - 18: pinky_pip
+  - 19: pinky_dip
+  - 20: pinky_tip
+
 connections:
   # Thumb
   - [0, 1]
