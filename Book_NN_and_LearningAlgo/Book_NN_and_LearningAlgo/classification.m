@@ -66,7 +66,7 @@ b1 = 1;
 b2 = 1;
 o_target = zeros(5,1);
 
-%% Train 
+%% Train
 for epoch = 1:100
     epoch
     % Train
@@ -83,7 +83,7 @@ for epoch = 1:100
     end
     E/train_factor
     MSE_Train(epoch) = E/train_factor;
-    
+
     % Test
     E = 0;
     for ii = 1:size(testset,1)

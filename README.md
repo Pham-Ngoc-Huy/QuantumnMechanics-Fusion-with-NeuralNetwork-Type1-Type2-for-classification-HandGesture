@@ -2,13 +2,13 @@
 
 ### Objective
 
-- **Quantum Mechanics for Machine Learning:**  
-  This topic focuses on understanding the fundamentals of `quantum computing`, including - how `qubits` are represented and manipulated using mathematical foundations such as vectors and probability theory. 
-  
-    => The goal is to build a simple project that demonstrates how `quantum mechanics` concepts can be applied in `machine learning` without relying on `built-in functions`, helping to develop an intuitive understanding of how quantum systems work.  
-    - In this Quantum Mechanics, we will get use with `Kronecker product` whereas:
-    ![alt text](pic/kronecker_product_example.png)
-        ### Why Quantum Computing Uses Kronecker Product Instead of Normal Matrix Multiplication
+- **Quantum Mechanics for Machine Learning:**
+  This topic focuses on understanding the fundamentals of `quantum computing`, including - how `qubits` are represented and manipulated using mathematical foundations such as vectors and probability theory.
+
+  => The goal is to build a simple project that demonstrates how `quantum mechanics` concepts can be applied in `machine learning` without relying on `built-in functions`, helping to develop an intuitive understanding of how quantum systems work.
+
+  - In this Quantum Mechanics, we will get use with `Kronecker product` whereas:
+    ![alt text](pic/kronecker_product_example.png) ### Why Quantum Computing Uses Kronecker Product Instead of Normal Matrix Multiplication
 
         Quantum computation uses **qubits** instead of classical bits. Unlike classical bits that can only be `0` or `1`, a qubit can exist in a **superposition** of both states:
 
@@ -18,7 +18,7 @@
 
         where:
 
-        - $\alpha, \beta \in \mathbb{C}$ are complex probability amplitudes  
+        - $\alpha, \beta \in \mathbb{C}$ are complex probability amplitudes
         - $|\alpha|^2 + |\beta|^2 = 1$
 
         This means even a single qubit exists in a **2-dimensional vector space**.
@@ -89,13 +89,15 @@
 
         ```matlab
         kron([1;0],[1;0])
-- **Neural Network in Lower Limb Exoskeleton:**  
-  This topic focuses on understanding `mathbase` of neural network foundation and it varitations including `type 2` and `fuzzy` for the Lower Limb Exoskeleton dataset.  
-  
-    => The goal is to build a predicted action from the input of users to guess what is the next action (the subjects we focus on both `male` and `female` - no age limit)
+
+- **Neural Network in Lower Limb Exoskeleton:**
+  This topic focuses on understanding `mathbase` of neural network foundation and it varitations including `type 2` and `fuzzy` for the Lower Limb Exoskeleton dataset.
+
+  => The goal is to build a predicted action from the input of users to guess what is the next action (the subjects we focus on both `male` and `female` - no age limit)
 
 ### **Rework-Some Product**:
-**Short about this**: 
+
+**Short about this**:
 
 I realize my work will not be approved if I dont have any products or real things apply that can see/bring to users that will show my research reliable :(
 
@@ -123,4 +125,4 @@ This is an example about the way it would work:
 **6. Predict based on Digital Twin**
 ![alt text](pic/predictive.png)
 
->This is still not as my imagination, i mean the Digital Twins part, the model is reflected quite well, but when want to improve we need more efficient rather than 90%
+> This is still not as my imagination, i mean the Digital Twins part, the model is reflected quite well, but when want to improve we need more efficient rather than 90%

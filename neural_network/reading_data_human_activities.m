@@ -1,4 +1,4 @@
-clear; 
+clear;
 clc;
 
 base_path = "D:\system_indentification_with_NN_fuzzy\data\DB9";
@@ -17,7 +17,7 @@ for i = 1:length(all_mat)
     file_path = fullfile(all_mat(i).folder, all_mat(i).name);
     data = load(file_path);
 
-    N = size(data.angles,1); 
+    N = size(data.angles,1);
     angles{end+1} = data.angles;
     glove{end+1} = data.glove;
     rerepetition{end+1} = data.rerepetition;

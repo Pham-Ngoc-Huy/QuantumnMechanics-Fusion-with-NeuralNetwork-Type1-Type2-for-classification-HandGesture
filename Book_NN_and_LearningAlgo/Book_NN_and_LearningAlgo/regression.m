@@ -1,19 +1,19 @@
-clear all 
-clc 
+clear all
+clc
 
 %% Generate Training and Test data
 N = 100;
-u = 2*rand(N,1)-1; 
-y = zeros(N,1); 
+u = 2*rand(N,1)-1;
+y = zeros(N,1);
 train_factor = 0.7*N;
 test_factor = N-train_factor;
-%% Construct target objective function 
+%% Construct target objective function
 % for t=3:N
 %     x1 = y(t-1);
 %     x2 = y(t-2);
 %     x3 = u(t-1);
 %     y(t) = 0.5*x1-0.2*x2+0.1*x1^2+0.3*x3;
-% end 
+% end
 
 for t=3:N
     x1 = y(t-1);
@@ -76,7 +76,7 @@ for i = 1:N
 end
 figure(1)
 plot(y,'b','LineWidth',2)
-hold on 
+hold on
 plot(yttest,'--r','LineWidth',1)
 
 

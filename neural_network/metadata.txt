@@ -1,4 +1,4 @@
-participant: 
+participant:
 velocity:
 EMG:
 Record for Right Leg:
@@ -65,4 +65,3 @@ body_height:
 body_mass:
 leg_length:
 foot_length:
-

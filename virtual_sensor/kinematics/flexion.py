@@ -1,6 +1,10 @@
 from abc import ABC, abstractmethod
+
 import numpy as np
+
 from log import logger
+
+
 # Compute MCP/PIP/DIP flexion angles
 class FlexionEstimation(ABC):
     """
@@ -25,9 +29,11 @@ class FlexionEstimation(ABC):
         publisher={Springer}
     }
     """
+
     @abstractmethod
     def calculate(self, landmarks: np.ndarray):
         pass
+
 
 class FlexionAngle(FlexionEstimation):
     """
@@ -41,11 +47,7 @@ class FlexionAngle(FlexionEstimation):
     def __init__(self, angle_calculator):
         self.angle = angle_calculator
 
-    def calculate(
-        self,
-        landmarks: np.ndarray,
-        joint
-    ):
+    def calculate(self, landmarks: np.ndarray, joint):
         """
         @brief: angle calculated (degree)
         @param landmarks: ndarray (21,3)
@@ -59,8 +61,5 @@ class FlexionAngle(FlexionEstimation):
 
         v1 = p1 - p2
         v2 = p3 - p2
-        logger.info(f"Calculate flexion-angle: \n"
-                    f"v1: {v1} \n"
-                    f"v2: {v2} \n"
-                    f"result: {self.angle.calculate(v1,v2)}")
-        return self.angle.calculate(v1,v2)
+        logger.info(f"Calculate flexion-angle: \nv1: {v1} \nv2: {v2} \nresult: {self.angle.calculate(v1, v2)}")
+        return self.angle.calculate(v1, v2)

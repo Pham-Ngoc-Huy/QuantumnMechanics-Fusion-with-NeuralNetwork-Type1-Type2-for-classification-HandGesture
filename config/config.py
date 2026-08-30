@@ -1,8 +1,8 @@
 import yaml
+
+
 class Config:
-
     def __init__(self, path: str):
-
         with open(path, "r") as f:
             self.data = yaml.safe_load(f)
 
@@ -12,7 +12,7 @@ class Config:
 
     @property
     def model_gesture(self):
-        return self.data['model_gesture']
+        return self.data["model_gesture"]
 
     @property
     def frame_interval(self):
@@ -24,15 +24,12 @@ class Config:
 
     @property
     def connections(self):
-        return self.data['connections']
+        return self.data["connections"]
 
     @property
     def sensors(self):
-        return self.data['sensors']
+        return self.data["sensors"]
 
     @property
     def dimension_activities(self):
-        return {
-            item["classes"]: item["activities"]
-            for item in self.data["dimension_activities"]
-        }
+        return {item["classes"]: item["activities"] for item in self.data["dimension_activities"]}

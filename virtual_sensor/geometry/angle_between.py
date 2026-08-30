@@ -1,19 +1,18 @@
 from abc import ABC, abstractmethod
-from log import logger
+
 import numpy as np
+
+from log import logger
+
 
 class AngleBetween(ABC):
     @abstractmethod
     def calculate(self):
         pass
 
-class AngleBetweenCosine(AngleBetween):
-    def calculate(
-        self,
-        vector1: np.ndarray,
-        vector2: np.ndarray
-    ) -> float:
 
+class AngleBetweenCosine(AngleBetween):
+    def calculate(self, vector1: np.ndarray, vector2: np.ndarray) -> float:
         norm1 = np.linalg.norm(vector1)
         norm2 = np.linalg.norm(vector2)
 

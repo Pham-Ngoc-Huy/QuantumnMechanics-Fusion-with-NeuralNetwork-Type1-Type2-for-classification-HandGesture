@@ -1,4 +1,3 @@
-from abc import ABC, abstractmethod
 import numpy as np
 from scipy.io import loadmat
 
@@ -41,7 +40,6 @@ class GestureClassifier:
         current = x.reshape(-1, 1)
 
         for w in self.w_hidden:
-
             bias = np.ones((1, current.shape[1]))
 
             u_bias = np.vstack([bias, current])
@@ -66,11 +64,7 @@ class GestureClassifier:
         return prob.squeeze()
 
     def predict(self, feature_vector):
-        x = (
-            feature_vector - self.x_min
-        ) / (
-            self.x_max - self.x_min + 1e-8
-        )
+        x = (feature_vector - self.x_min) / (self.x_max - self.x_min + 1e-8)
 
         prob = self.forward(x)
 

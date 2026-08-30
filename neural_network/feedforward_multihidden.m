@@ -9,8 +9,8 @@ function [o_hidden, net_hidden, o_output] = feedforward_multihidden(u, w_hidden,
     for i = 1:num_layers
         n_b          = size(current, 2);
         % prepend bias row of ones
-        u_bias       = [ones(1, n_b); current];      
-        net_hidden{i} = w_hidden{i}' * u_bias;          
+        u_bias       = [ones(1, n_b); current];
+        net_hidden{i} = w_hidden{i}' * u_bias;
         o_hidden{i}   = bipolar_sigmoid(net_hidden{i});
         current       = o_hidden{i};
     end

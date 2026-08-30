@@ -1,22 +1,18 @@
 from abc import ABC, abstractmethod
-from log import logger
+
 import numpy as np
+
+from log import logger
+
 
 class ProjectToPlane(ABC):
     @abstractmethod
-    def project(
-        self,
-        vector: np.ndarray,
-        plane_normal: np.ndarray
-    ):
+    def project(self, vector: np.ndarray, plane_normal: np.ndarray):
         pass
 
+
 class ProjectToPalmPlane(ProjectToPlane):
-    def project(
-        self,
-        vector: np.ndarray,
-        plane_normal: np.ndarray
-    ):
+    def project(self, vector: np.ndarray, plane_normal: np.ndarray):
         """
         @brief: Project a 3D vector onto the palm plane.
         @params vector : ndarray (3,). Input vector.
@@ -31,6 +27,5 @@ class ProjectToPalmPlane(ProjectToPlane):
         projected = vector - np.dot(vector, plane_normal) * plane_normal
         projected = projected / np.linalg.norm(projected)
 
-        logger.info(f"Calculated Projector: \n"
-                    f"Projected: {projected}")
+        logger.info(f"Calculated Projector: \nProjected: {projected}")
         return projected

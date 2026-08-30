@@ -40,7 +40,7 @@ X = [
     ip1, ...
     mcp2_f, ...
     pip2, ...
-    mcp3_f, ... 
+    mcp3_f, ...
     pip3, ...
     mcp4_f, ...
     mcp4_a, ...
@@ -81,9 +81,9 @@ train_factor = round(0.7 * N);
 test_factor = N - train_factor;
 
 rng(42); % this the same with random.seed(42) in Python
-% since i read library of skitit learn -> see them use  
-% Funfact: 42 is a reference from Hitchhikers guide to galaxy book. 
-    % The answer to life universe and everything and is meant as a joke. 
+% since i read library of skitit learn -> see them use
+% Funfact: 42 is a reference from Hitchhikers guide to galaxy book.
+    % The answer to life universe and everything and is meant as a joke.
     % It has no other significance.
 
 idx_perm = randperm(N); % this randperm make the dataset become more unpredictable
@@ -96,8 +96,8 @@ test_data = X_norm(test_idx,  :);
 target_test = Y_onehot(test_idx,  :);
 
 %% architectures
-num_input = size(X_norm, 2);   
-num_output = num_class;          
+num_input = size(X_norm, 2);
+num_output = num_class;
 
 hidden_sizes = [128, 64]; % recommend setting when researching  -> can be different but should be descending
 num_layers = numel(hidden_sizes);
@@ -119,10 +119,10 @@ w_out = (rand(n_in_out+1, num_output) * 2 - 1) * limit_out;
 
 %% hyper-parameters (place for adjusting)
 % Adam default learning rate
-eta = 0.001;   
+eta = 0.001;
 maxepoch = 200;
 % smaller batch → better gradient estimates
-batch_size = 256;     
+batch_size = 256;
 
 % Adam parameters
 beta1  = 0.9;
@@ -134,7 +134,7 @@ m_out = zeros(size(w_out));   v_out = zeros(size(w_out));
 m_hid = cellfun(@(w) zeros(size(w)), w_hidden, 'UniformOutput', false);
 v_hid = cellfun(@(w) zeros(size(w)), w_hidden, 'UniformOutput', false);
 % global step counter
-t_adam = 0;   
+t_adam = 0;
 
 %% storage - init
 loss_train     = zeros(maxepoch, 1);
@@ -162,7 +162,7 @@ for epoch = 1:maxepoch
 
         %% Forward pass
         [o_hidden, net_hidden, o_output] = feedforward_multihidden(X_b, w_hidden, w_out);
-        
+
         %% Categorical cross-entropy loss  (sum over batch)
         O_clip  = max(o_output, 1e-12);
         E_train = E_train + sum(sum(-T_b .* log(O_clip)));

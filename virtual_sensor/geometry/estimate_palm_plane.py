@@ -1,9 +1,11 @@
-from log import logger
 from abc import ABC, abstractmethod
+
 import numpy as np
 
-class EstimatePalmPlane(ABC):
+from log import logger
 
+
+class EstimatePalmPlane(ABC):
     @abstractmethod
     def estimate(self, landmarks: np.ndarray):
         """
@@ -22,31 +24,30 @@ class EstimatePalmPlane(ABC):
 
 
 class EstimatePalmPlaneCross(EstimatePalmPlane):
-
     def estimate(self, landmarks: np.ndarray):
         """
-            @brief: Estimate the palm plane using three anatomical landmarks:
-                - Wrist (0)
-                - Index MCP (5)
-                - Little MCP (17)
+        @brief: Estimate the palm plane using three anatomical landmarks:
+            - Wrist (0)
+            - Index MCP (5)
+            - Little MCP (17)
 
-                These three landmarks approximately define the palm plane.
-                The plane normal is computed using the cross product of two
-                vectors lying on the palm.
+            These three landmarks approximately define the palm plane.
+            The plane normal is computed using the cross product of two
+            vectors lying on the palm.
 
-            @param landmarks : np.ndarray. Hand landmarks with shape (21, 3).
+        @param landmarks : np.ndarray. Hand landmarks with shape (21, 3).
 
-            Returns: (
-                palm_center : np.ndarray. Center of the estimated palm plane.
-                palm_normal : np.ndarray. Unit normal vector of the palm plane.
-            )
+        Returns: (
+            palm_center : np.ndarray. Center of the estimated palm plane.
+            palm_normal : np.ndarray. Unit normal vector of the palm plane.
+        )
         """
         wrist = landmarks[0]
         index_mcp = landmarks[5]
         little_mcp = landmarks[17]
 
         # Two vectors on the palm
-        v1 = index_mcp - wrist 
+        v1 = index_mcp - wrist
         v2 = little_mcp - wrist
 
         # Cross product -> tích có hướng 2 vector (dot product) -> tính tọa độ vector vuông góc
@@ -62,15 +63,13 @@ class EstimatePalmPlaneCross(EstimatePalmPlane):
         palm_normal /= norm
 
         # estimate the palm center as the centroid of the three defining points
-        palm_center = (wrist + index_mcp + little_mcp) / 3 
-        logger.info(f"Estimated-PalmPlane by Cross: \n"
-                    f"Palm-Center: {palm_center} \n"
-                    f"Palm-Normal: {palm_normal}")
+        palm_center = (wrist + index_mcp + little_mcp) / 3
+        logger.info(f"Estimated-PalmPlane by Cross: \nPalm-Center: {palm_center} \nPalm-Normal: {palm_normal}")
         return palm_center, palm_normal
+
 
 # class EstimatePalmPlanePCA(EstimatePalmPlane):
 # TODO:
 # Replace the three-point estimation with a PCA-based plane fitting
 # using multiple palm landmarks (0, 5, 9, 13, 17) to improve
 # robustness against MediaPipe landmark noise.
-

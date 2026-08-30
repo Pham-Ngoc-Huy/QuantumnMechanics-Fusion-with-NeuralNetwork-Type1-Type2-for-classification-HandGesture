@@ -29,22 +29,22 @@ TQ_R_St1_Ankle_X  = all_data_full(:,33); TQ_R_St1_Ankle_Y  = all_data_full(:,34)
 TQ_R_St2_Ankle_X  = all_data_full(:,36); TQ_R_St2_Ankle_Y  = all_data_full(:,37); TQ_R_St2_Ankle_Z  = all_data_full(:,38);
 
 %% Torque_L (9 cols)
-TQ_L_St1_Hip_X = all_data_full(:,39); 
-TQ_L_St1_Hip_Y = all_data_full(:,40); 
+TQ_L_St1_Hip_X = all_data_full(:,39);
+TQ_L_St1_Hip_Y = all_data_full(:,40);
 TQ_L_St1_Hip_Z = all_data_full(:,41);
-TQ_L_St1_Knee_X = all_data_full(:,42); 
-TQ_L_St1_Knee_Y = all_data_full(:,43); 
+TQ_L_St1_Knee_X = all_data_full(:,42);
+TQ_L_St1_Knee_Y = all_data_full(:,43);
 TQ_L_St1_Knee_Z = all_data_full(:,44);
-TQ_L_St1_Ankle_X = all_data_full(:,45); 
-TQ_L_St1_Ankle_Y = all_data_full(:,46); 
+TQ_L_St1_Ankle_X = all_data_full(:,45);
+TQ_L_St1_Ankle_Y = all_data_full(:,46);
 TQ_L_St1_Ankle_Z = all_data_full(:,47);
 
 %% Metadata (6 cols)
-gender = all_data_full(:,48); 
+gender = all_data_full(:,48);
 age = all_data_full(:,49);
-body_height = all_data_full(:,50); 
+body_height = all_data_full(:,50);
 body_mass = all_data_full(:,51);
-leg_length = all_data_full(:,52); 
+leg_length = all_data_full(:,52);
 foot_length = all_data_full(:,53);
 
 %% Feature matrix X (51 cols)
@@ -137,22 +137,22 @@ fprintf('Fuzzy rules: %d features × %d sets = %d rules\n', ...
 eta = 0.001;
 maxepoch   = 300;
 batch_size = 512;
-beta1 = 0.9;  
-beta2 = 0.999;  
+beta1 = 0.9;
+beta2 = 0.999;
 eps_ad = 1e-8;
 
 %% adam parameters
-m_out = zeros(size(w_out));     
+m_out = zeros(size(w_out));
 v_out = zeros(size(w_out));
 m_hid = cellfun(@(w) zeros(size(w)), w_hidden, 'UniformOutput', false);
 v_hid = cellfun(@(w) zeros(size(w)), w_hidden, 'UniformOutput', false);
-m_C = zeros(size(C));    
+m_C = zeros(size(C));
 v_C = zeros(size(C));
 m_S = zeros(size(Sigma));
 v_S = zeros(size(Sigma));
-m_P = zeros(size(P));    
+m_P = zeros(size(P));
 v_P = zeros(size(P));
-m_Q = zeros(size(Q));    
+m_Q = zeros(size(Q));
 v_Q = zeros(size(Q));
 t_adam = 0;
 
@@ -174,8 +174,8 @@ for epoch = 1:maxepoch
 
     for i = 1:batch_size:train_factor
         batch_idx = idx_shuf(i : min(i+batch_size-1, train_factor));
-        X_b = train_data(batch_idx, :)';  
-        T_b = target_train(batch_idx, :)'; 
+        X_b = train_data(batch_idx, :)';
+        T_b = target_train(batch_idx, :)';
         n_b = size(X_b, 2);
 
 %% Fuzzification
@@ -338,11 +338,11 @@ Y_dte = fuzzy_forward(test_data', C, Sigma, P, Q, K, num_features, num_class, nu
 [~,~,o_te] = feedforward_nn_hidden_01(Y_dte, w_hidden, w_out);
 [~,p_te] = max(o_te,[],1);  [~,t_te] = max(target_test',[],1);
 
-figure(2); 
-confusionchart(confusionmat(t_tr,p_tr)); 
+figure(2);
+confusionchart(confusionmat(t_tr,p_tr));
 title('Train Confusion Matrix');
-figure(3); 
-confusionchart(confusionmat(t_te,p_te)); 
+figure(3);
+confusionchart(confusionmat(t_te,p_te));
 title('Test Confusion Matrix');
 
 %% visualization membership function

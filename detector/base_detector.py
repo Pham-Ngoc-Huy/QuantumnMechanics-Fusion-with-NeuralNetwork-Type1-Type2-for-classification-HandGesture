@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
-class BaseDetector(ABC):
 
+
+class BaseDetector(ABC):
     @abstractmethod
     def create(self):
         """Create detector instance."""

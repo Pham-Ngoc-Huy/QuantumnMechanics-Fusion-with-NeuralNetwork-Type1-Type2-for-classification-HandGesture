@@ -3,4 +3,3 @@ function [updated] = GD(recent,eta,rate)
 %   Detailed explanation goes here
 updated = recent - eta*rate;
 end
-

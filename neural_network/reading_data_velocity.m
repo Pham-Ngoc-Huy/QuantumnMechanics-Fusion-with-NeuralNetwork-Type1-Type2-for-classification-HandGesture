@@ -42,7 +42,7 @@ for p = 1:length(listing)
     end
 end
 
-% check the result of right/left leg 
+% check the result of right/left leg
 sides_found = fieldnames(all_emg_cols);
 for s = 1:length(sides_found)
     fprintf('EMG_%s (%d cols): %s\n', sides_found{s}, numel(all_emg_cols.(sides_found{s})), strjoin(all_emg_cols.(sides_found{s}), ', '));
@@ -143,12 +143,12 @@ meta_table = [];
 for p = 1:length(listing)
     txtPath = fullfile(base_path, listing(p).name, "Metadata.txt");
     if ~isfile(txtPath), continue; end
-    
+
     info_str = fileread(txtPath);
-    
+
     subject_id  = str2double(regexp(info_str, 'Subject(\d+)',            'tokens', 'once'));
     gender_str  = regexp(info_str, 'Gender:\s*(\w+)', 'tokens', 'once');
-    
+
     if strcmpi(gender_str, 'Male')
         gender_decode = 1;
     else
@@ -159,7 +159,7 @@ for p = 1:length(listing)
     body_mass   = str2double(regexp(info_str, 'Body Mass: ([\d.]+)',     'tokens', 'once'));
     leg_length  = str2double(regexp(info_str, 'Leg Length: ([\d.]+)',    'tokens', 'once'));
     foot_length = str2double(regexp(info_str, 'Foot Length: ([\d.]+)',   'tokens', 'once'));
-    
+
     meta_table = [meta_table; p, gender_decode, age, body_height, body_mass, leg_length, foot_length];
 end
 
@@ -173,28 +173,28 @@ fprintf('all_data_table: %d rows x %d cols\n', size(all_data_full,1), size(all_d
 save("processed_data_velocity_classification.mat", "all_data_full")
 %% convert to table with names
 % meta_table = array2table(meta_table, 'VariableNames', {'participant', 'subject_id', 'age', 'body_height', 'body_mass', 'leg_length', 'foot_length'});
-% 
+%
 % all_data_table = array2table(all_data, 'VariableNames', {'participant', 'velocity', ...
-% 
+%
 %     'St1_VL_R', 'St2_VL_R', ...
 %     'St1_BF_R', 'St2_BF_R', ...
 %     'St1_TA_R', 'St2_TA_R', ...
 %     'St1_GAL_R', 'St2_GAL_R', ...
-% 
+%
 %     'St1_VL_L', 'St1_BF_L', 'St1_TA_L', 'St1_GAL_L', ...
-% 
+%
 %     'St1_Pelvis_X_R', 'St1_Pelvis_Y_R', 'St1_Pelvis_Z_R', ...
 %     'St2_Pelvis_X_R', 'St2_Pelvis_Y_R', 'St2_Pelvis_Z_R', ...
-% 
+%
 %     'St1_Hip_X_R', 'St1_Hip_Y_R', 'St1_Hip_Z_R', ...
 %     'St2_Hip_X_R', 'St2_Hip_Y_R', 'St2_Hip_Z_R', ...
-% 
+%
 %     'St1_Knee_X_R', 'St1_Knee_Y_R', 'St1_Knee_Z_R', ...
 %     'St2_Knee_X_R', 'St2_Knee_Y_R', 'St2_Knee_Z_R', ...
-% 
+%
 %     'St1_Ankle_X_R', 'St1_Ankle_Y_R', 'St1_Ankle_Z_R', ...
 %     'St2_Ankle_X_R', 'St2_Ankle_Y_R', 'St2_Ankle_Z_R', ...
-% 
+%
 %     'St1_Hip_X_L', 'St1_Hip_Y_L', 'St1_Hip_Z_L', ...
 %     'St1_Knee_X_L', 'St1_Knee_Y_L', 'St1_Knee_Z_L', ...
 %     'St1_Ankle_X_L', 'St1_Ankle_Y_L', 'St1_Ankle_Z_L'

@@ -1,13 +1,13 @@
 from abc import ABC, abstractmethod
+
 import numpy as np
+
 from log import logger
+
+
 class WristEstimation(ABC):
     @abstractmethod
-    def calculate(
-        self,
-        landmarks: np.ndarray,
-        palm_normal: np.ndarray
-    ):
+    def calculate(self, landmarks: np.ndarray, palm_normal: np.ndarray):
         """
         wrist_f : float
             Wrist flexion angle (degree)
@@ -17,20 +17,13 @@ class WristEstimation(ABC):
         """
         pass
 
+
 class WristAngle(WristEstimation):
-    def __init__(
-        self,
-        projector,
-        angle_calculator
-    ):
+    def __init__(self, projector, angle_calculator):
         self.projector = projector
         self.angle = angle_calculator
 
-    def calculate(
-        self,
-        landmarks: np.ndarray,
-        palm_normal: np.ndarray
-    ):
+    def calculate(self, landmarks: np.ndarray, palm_normal: np.ndarray):
         """
         Compute wrist orientation.
 
@@ -51,33 +44,17 @@ class WristAngle(WristEstimation):
 
         wrist = landmarks[0]
 
-        palm_center = (
-            landmarks[5] +
-            landmarks[9] +
-            landmarks[13] +
-            landmarks[17]
-        ) / 4
+        palm_center = (landmarks[5] + landmarks[9] + landmarks[13] + landmarks[17]) / 4
 
         wrist_vector = palm_center - wrist
 
         # vector projected onto palm plane
-        wrist_proj = self.projector.project(
-            vector=wrist_vector,
-            plane_normal=palm_normal
-        )
+        wrist_proj = self.projector.project(vector=wrist_vector, plane_normal=palm_normal)
 
-        wrist_f = self.angle.calculate(
-            wrist_vector,
-            wrist_proj
-        )
+        wrist_f = self.angle.calculate(wrist_vector, wrist_proj)
 
         reference = np.array([1.0, 0.0, 0.0])
 
-        wrist_a = self.angle.calculate(
-            wrist_proj,
-            reference
-        )
-        logger.info(f"Wrist Estimated: \n"
-                    f"wrist-f: {wrist_f} \n"
-                    f"wrist-a: {wrist_a}")
+        wrist_a = self.angle.calculate(wrist_proj, reference)
+        logger.info(f"Wrist Estimated: \nwrist-f: {wrist_f} \nwrist-a: {wrist_a}")
         return wrist_f, wrist_a

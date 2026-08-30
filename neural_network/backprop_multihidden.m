@@ -5,9 +5,9 @@ function [grad_w_hidden, grad_w_out] = backprop_multihidden(u, T, o_hidden, o_ou
     % where o = tanh-like bipolar sigmoid output
     % Equivalent form using net: 2*exp(-net)/(1+exp(-net))^2
     % Using output form is faster: df = 0.5*(1 - o.^2)
-    df_bipolar = @(o) 0.5 * (1 - o.^2); 
+    df_bipolar = @(o) 0.5 * (1 - o.^2);
 
-    %% output layer delta  (softmax + CE simplification) 
+    %% output layer delta  (softmax + CE simplification)
     delta_out = (o_output - T);   % (n_output x batch) — already the gradient
 
     %% output layer gradient

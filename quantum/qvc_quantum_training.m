@@ -8,7 +8,7 @@ dataset = readtable(file_name);
 
 %% number of qubit define:
 % since we have 2 var : x1,x2 -> qubit use = 2
-% number of qubit use will = the number of features 
+% number of qubit use will = the number of features
 % label is not feature -> it is the output
 qubit = 2;
 
@@ -29,7 +29,7 @@ x2_normalize = x2/max_val * pi;
 state0 = [1;0;0;0];
 
 %% Define rotation matix
-RY1 = cell(length(x1_normalize),1); % this is use `cell` for store `matrix` as single element 
+RY1 = cell(length(x1_normalize),1); % this is use `cell` for store `matrix` as single element
 RY2 = cell(length(x2_normalize),1);
 U = cell(length(x1_normalize),1);
 for i = 1:length(x1_normalize)
@@ -83,7 +83,7 @@ for epoch = 1:10
 
         disp(['Sample ', num2str(i), ' f = ', num2str(f), ...
               ' loss = ', num2str(loss)])
-        
+
         theta1_old = theta1;
         theta2_old = theta2;
         % gradient updated

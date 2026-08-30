@@ -4,4 +4,3 @@
 function output = monopolar_sigmoid(var)
     output = 1./(1+exp(-var));
 end
-

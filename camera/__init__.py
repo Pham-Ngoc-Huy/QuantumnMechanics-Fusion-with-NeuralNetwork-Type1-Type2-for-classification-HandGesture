@@ -1,5 +1,3 @@
 from .webcam import Webcam
 
-__all__ = [
-    "Webcam"
-]
+__all__ = ["Webcam"]

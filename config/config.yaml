@@ -3,15 +3,15 @@ model_gesture: "models/gesture_model.mat"
 fps: 30
 hand_landmarks_metadata:
   # mcp: stands for `metacarpophalangeal` joint
-    # vietnamese: khớp bàn - ngón tay (hay còn gọi là khớp đốt ngón gần gốc nhất, chính là khớp xương "nắm đấm" khi bạn nắm tay lại)
+  # vietnamese: khớp bàn - ngón tay (hay còn gọi là khớp đốt ngón gần gốc nhất, chính là khớp xương "nắm đấm" khi bạn nắm tay lại)
   # pip: stands for `proximal interphalageal` joint
-    # vietnamese: khớp liên ngón gần (Khớp đốt ngón tay ở giữa, nằm gần lòng bàn tay hơn so với khớp chót)
+  # vietnamese: khớp liên ngón gần (Khớp đốt ngón tay ở giữa, nằm gần lòng bàn tay hơn so với khớp chót)
   # dip: stands for `distal interphalangeal` joint
-    # vietnamese: khớp liên ngon xa (khớp đốt ngón tay nằm gần móng tay/ đầu ngón tay nhất)
+  # vietnamese: khớp liên ngon xa (khớp đốt ngón tay nằm gần móng tay/ đầu ngón tay nhất)
   # tip: stands for `finger-tip`
-    # vietnamese: đầu ngón tay (điểm mút cùng của ngón tay)
-  # cmc: stands for `carpometacarpal` joint 
-    # vietnamese: khớp cổ - bàn tay (khớp nối giữa các xương cổ tay và xương bàn tay)
+  # vietnamese: đầu ngón tay (điểm mút cùng của ngón tay)
+  # cmc: stands for `carpometacarpal` joint
+  # vietnamese: khớp cổ - bàn tay (khớp nối giữa các xương cổ tay và xương bàn tay)
   - 0: wrist
   - 1: thumb_cmc
   - 2: thumb_mcp
@@ -69,7 +69,6 @@ connections:
   - [0, 17]
 
 sensors:
-
   # Thumb
   cmc1_f:
     type: flexion
@@ -82,7 +81,7 @@ sensors:
     parent: 0
     joint: 1
     child: 2
-    ref_finger: [0,5,6] 
+    ref_finger: [0, 5, 6]
 
   mcp1:
     type: flexion
@@ -108,8 +107,8 @@ sensors:
     parent: 0
     joint: 5
     child: 6
-    ref_finger: [0,9,10]
-    enabled: false      # Dataset column is NaN
+    ref_finger: [0, 9, 10]
+    enabled: false # Dataset column is NaN
 
   pip2:
     type: flexion
@@ -154,7 +153,7 @@ sensors:
     parent: 0
     joint: 13
     child: 14
-    ref_finger: [0,9,10]
+    ref_finger: [0, 9, 10]
 
   pip4:
     type: flexion
@@ -186,7 +185,7 @@ sensors:
     parent: 0
     joint: 17
     child: 18
-    ref_finger: [0,13,14]
+    ref_finger: [0, 13, 14]
 
   pip5:
     type: flexion
@@ -211,12 +210,12 @@ sensors:
   #   type: wrist_abduction
   #   parent: null
   #   joint: 0
-  #   child: null  
+  #   child: null
 
 dimension_activities:
   - classes: 200
     activities: "Unknown"
-    
+
   - classes: 201
     activities: "Thumb up"
 
@@ -267,7 +266,7 @@ dimension_activities:
 
   - classes: 217
     activities: "Wrist radial deviation"
-  
+
   - classes: 301
     activities: "Large diameter grasp"
 
