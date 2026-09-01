@@ -285,3 +285,32 @@ Trong đó:
 g_t = (position_{x,y,z}, orientation_{R})
 
 ```
+
+### 9. Forward Kinematics and Reversed Kinematics
+
+Cho dễ hình dung - đây là hình ảnh của 1 finger tips pose:
+
+![alt text](pic/finger_tips.png)
+
+**1. Forward Kinematics:**
+
+> Biết joint angles -> tìm tip poses
+
+**2. Reversed Kinematics:**
+
+> Từ tip pose -> để tìm được joint angles
+
+Câu hỏi: Gốc toạ độ được đặt ở đâu:
+
+Trong mô hình paper, `spatial frame` S được đặt tại gốc của finger.
+
+Và paper có 1 frame khác ở tip:
+
+- $S$: spatial frame
+- $T$: finger tip frame
+
+Transformation trong paper là: $g_{st, f}$
+
+nghĩa là:
+
+> pose của frame T (`finger tip frame`) đối với frame S (`spatial frame`)
