@@ -79,6 +79,8 @@ và paper biểu diễn điều này lại bằng POE (product of exponental)
 g_{st,f} = e^{\hat{\eta_1}\alpha_1} e^{\hat{\eta_2}\alpha_2} e^{\hat{\eta_3}\alpha_3} g_{st,f_0}
 ```
 
+---
+
 **Sensing:**
 
 với sensing thì ta cần đi ngược lại:
@@ -151,9 +153,11 @@ Joint variables không chỉ là thoả các điều kiện về góc xoay giữ
 
 ### 2. Equation 4 - 5:
 
+---
+
 Trước khi vào phần này:
 
-Để thống nhất concept - thì pipeline chuyển đổi lúc này là:
+Để thống nhất concept - thì pipeline chuyển đổi lúc này là: **(SENSING)**
 
 ```math
 \phi \rightarrow \theta \rightarrow g_{t} \rightarrow \alpha
@@ -162,9 +166,21 @@ Trước khi vào phần này:
 
 thì từ $\phi \rightarrow \theta$ phải thoả mãn sensors constraint + static equalibrium
 
+Phân biệt:
+| kí hiệu | ý nghĩa |
+|---------|---------|
+| $\phi$ | local defections do sensors đo |
+| $\alpha$ | joint angles của human finger |
+| $\theta$ | joint variables của equivalent flexible beam mechanism |
+
+> [!NOTE]:
+> 3 cái này khác nhau hoàn toàn không có lẫn lộn
+
+---
+
 theo paper:
 
-**Equation(4): sensors constraint**
+**Equation(4): sensors constraint** (where $p$: $\text{local defection constraint}$)
 
 ```math
 
@@ -174,12 +190,37 @@ p = S_e \theta - \Phi = 0
 
 với
 
-$\Phi = [\phi_1, \phi_2, \phi_3, \phi_4]^T$
-
-> Nghĩa là 4 sensor measurements đang đặt constraint lên trạng thái deformation $\theta$ của toàn bộ beam
+- $\Phi = [\phi_1, \phi_2, \phi_3, \phi_4]^T$: sensed local curvatures
+- $\theta$ (nx1): joint variable of equivalent linkage
+- $S_e$: 4x1: Sensor location matrix (đang sử dụng 4 sensors)
+  > Nghĩa là 4 sensor measurements đang đặt constraint lên trạng thái deformation $\theta$ của toàn bộ beam
 
 **Equation(5): Static Equilibrium**
 
 ```math
 \tau = K_{\theta} \theta - J^{T}_{t} F_{t} = 0
+```
+
+công thức này nghĩa là:
+
+> Trong không gian khớp, mô-men phục hồi của các khớp đần hồi phải được cân bằng bởi phản lực của ngoại lực tác động lên đầu ngón tay.
+
+- $K_{\theta}$ = $diag(k_1, ... k_n)$ $ \in R^{nxn}$: represents the diagonal stiffness matrix of the elastic joint which are determined by the beam's mechanical properties
+- $F_t \in R^{6x1}$: denotes the external wrench (mô-men ngoại lực) applied by finger tip at {T}, which generates the forced deflection of the flexible beam.
+- $J_t \in R^{6xn}$: is the Jacobian matrix relating the joint space to the tip frame
+
+Để mà giải thích dễ hiểu hơn thì
+
+- $K_{\theta}$: beam/elastic joint này cứng đến mức nào?
+
+- $\theta$: beam/elastic joint này đã biến dạng bao nhiêu?
+
+thì $\rightarrow$ $K_{\theta}$ $\cdot$ $\theta4$: = độ cứng x độ biến dạng = elastic restoring torque
+
+> Hay đơn giản dễ hiểu hơn là torque của spring sinh ra để chống lại biến dạng
+
+Trong cùng ngữ cảnh, nếu beam đang bị cong thì elastic deformation tạo ra 1 torque:
+
+```math
+K_{\theta} \cdot \theta
 ```

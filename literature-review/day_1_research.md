@@ -290,7 +290,7 @@ g_t = (position_{x,y,z}, orientation_{R})
 
 Cho dễ hình dung - đây là hình ảnh của 1 finger tips pose:
 
-![alt text](pic/finger_tips.png)
+![alt text](finger_tips.png)
 
 **1. Forward Kinematics:**
 
