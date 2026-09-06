@@ -215,7 +215,7 @@ công thức này nghĩa là:
 
 - $\theta$: beam/elastic joint này đã biến dạng bao nhiêu?
 
-thì $\rightarrow$ $K_{\theta}$ $\cdot$ $\theta4$: = độ cứng x độ biến dạng = elastic restoring torque
+thì $\rightarrow$ $K_{\theta}$ $\cdot$ $\theta$: = độ cứng x độ biến dạng = elastic restoring torque
 
 > Hay đơn giản dễ hiểu hơn là torque của spring sinh ra để chống lại biến dạng
 
@@ -224,3 +224,69 @@ Trong cùng ngữ cảnh, nếu beam đang bị cong thì elastic deformation t�
 ```math
 K_{\theta} \cdot \theta
 ```
+
+**Tại sao $F_{t}$ lại là unknown ?**
+
+Paper viết:
+
+```math
+K_{\theta} \theta - J^{T}_{t} F_{t} = 0
+```
+
+Trong đó $J_{t}$ là **Jacobian** tại tip của equivalent beam mechanism
+
+> $J_t$: biến đổi joint motion $\rightarrow$ tip motion
+
+Ví dụ:
+
+```math
+\dot{x} = J_{t} \dot{\theta}
+
+```
+
+Nghĩa là nếu các elastic joints thay đổi một chút $\dot{\theta}$ thì tip sẽ chuyển động $\dot{x}$
+
+Trong trường hợp này thì mình đang đi ngược chiều:
+
+Ở paper đang xét force tại tip
+
+Một lực $F_{t}$ tác dụng ở tip sẽ tạo ra torque lên các joints
+
+Vậy -> để chuyển ---> tip force -> joint torque
+
+thì dùng:
+
+```math
+\tau = J^{T}_{t} F_{t}
+```
+
+đó là lý do có **transpose**
+
+Hãy tưởng tượng một thanh đơn giản
+
+```mermaid
+flowchart LR
+   subgraph Ngang [ ]
+      A[joint] --> B[tip]
+   end
+   B --> C[F]
+```
+
+Lực \(F\) ở tip tạo moment quanh joint:
+
+$$ \tau = rF $$
+
+Nếu khoảng cách \(r\) lớn → torque lớn.
+
+Jacobian chính là thứ encode hình học/mechanical advantage giữa joint và tip.
+
+Với nhiều joints:
+
+$$ F_t \overset{J_t^T}{\longrightarrow} \tau $$
+
+nên:
+
+```math
+\boxed{J_t^TF_t}
+```
+là **generalized torque do external wrench** tại tip gây ra trên các elastic joints.
