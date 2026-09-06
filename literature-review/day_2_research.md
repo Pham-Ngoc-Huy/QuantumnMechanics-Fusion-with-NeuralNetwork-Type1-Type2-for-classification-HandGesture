@@ -289,4 +289,5 @@ nên:
 ```math
 \boxed{J_t^TF_t}
 ```
+
 là **generalized torque do external wrench** tại tip gây ra trên các elastic joints.
