@@ -230,3 +230,131 @@ Trong paper này:
     \end{bmatrix} = 0
     }
    ```
+Equation (7) đang gom 2 điều kiện thành 1 hệ nonlinear:
+
+```math
+
+C(\theta,F_{t})
+= 
+    \begin{bmatrix}
+    y \\
+    \tau
+    \end{bmatrix} = 0
+=
+    \begin{bmatrix}
+    (ln(g_{st,b} g_{t}^-{1}))^V \\
+    K_{\theta} \theta - J_{t}^{T} F_{t} \\
+    \end{bmatrix}
+=0
+```
+
+Nó bắt hệ phải thõa mãn đồng thời 
+
+1. Geometry 
+
+
+```math
+g_{st,b}(\theta) = g_{t}
+
+```
+
+$\rightarrow tìm $\theta$ sao cho beam biến dạng đúng cách để tip đạt target pose
+
+
+2. Static equilibrium
+
+```math
+
+K_{\theta} \theta - J_{t}^{T} F_{t} = 0
+
+```
+
+$\rightarrow$ tìm $F_{t}$ sao cho **elastic restoring torque** của beam cân bằng với **external wrench** tại tip
+
+Vậy: 
+
+```math
+
+g_{t} \rightarrow (\theta, F_{t})
+
+```
+> Nhưng không phải $g_t$ tự động cho ra $\theta,F_t$. Ta phải giải hệ nonlinear $C(\theta,F_t)=0$ bằng numerical method, cụ thể paper dùng `Newton--Raphson`. Paper mô tả hệ này có $(n+6)$ unknowns trong spatial case và giảm xuống $(n+3)$ trong planar configuration.
+
+Từ đây mình suy ra 
+
+```mermaid
+flowchart TD
+    A["TARGET<br>fingertip pose"]
+    
+    B["KINETO-STATIC MODEL<br>────────────────<br>geometry constraint<br>+<br>force equilibrium"]
+    
+    C["θ₁, θ₂, ..., θₙ"]
+    D["F_t"]
+    
+    E["beam shape"]
+    F["external force"]
+
+    A -->|"g_t"| B
+    B -->|"Newton-Raphson"| C
+    B -->|"Newton-Raphson"| D
+    
+    C --> E
+    D --> F
+
+```
+Paper gọi toàn bộ cái này là `kinetostatic model`
+
+## Eq.(7) $\rightarrow$ Jacobian $\rightarrow$ Newton-Raphson $\rightarrow$ actual numerical solution
+
+Từ:
+
+```math
+C(\theta, F_{t}) = 0
+
+```
+> có nghĩa là tìm một trạng thái $(\theta, F_{t})$ sao cho cả **geometry** và **static equilibrium** cùng đúng.
+
+**1. Jacobian đang trả lời câu hỏi gì ?**
+
+> Jacobian dùng để trả lời câu hỏi "nếu tôi thay đổi một chút $\theta$ và $F_{t}$ thì **pose error** $y$ và **torque imbalance** $\tau$ sẽ thay đổi như thế nào ?
+
+**2. Áp dụng Newton Raphson để tính ?**
+
+Newton Raphson đang update các unknowns:
+
+```math
+\boxed{
+\theta \text{ and } F_{t}
+}
+
+```
+
+Trong đó $F_{t}$ là external wrench (force + moment)
+
+Nó tìm correlation:
+```math
+\Delta{\theta}, \Delta{F_{t}}
+
+```
+
+sao cho residual:
+
+```math
+C(\theta, F_{t}) \text { tiến gần tới 0 }
+
+```
+
+> Newton–Raphson lặp lại việc cập nhật $\theta$ và $F_t$ cho đến khi residual $C$ đủ nhỏ theo convergence criterion/tolerance.
+
+Conceptually
+
+```mermaid
+graph TD
+    A([Initial guess θ₀, F₀]) --> B[Calculate C]
+    B --> C[Calculate Jacobian]
+    C --> D[Find correction Δθ, ΔF]
+    D --> E[Update θ, F]
+    E --> F{Is residual < tolerance?}
+    F -- No --> B
+    F -- Yes --> G([DONE])
+```

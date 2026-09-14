@@ -149,7 +149,7 @@ Joint variables không chỉ là thoả các điều kiện về góc xoay giữ
 >
 > nói đại khái là:
 >
-> Beam bị cong -> elastic joint được sinh ra restoring torque -> Torque này phải cân bằng với tác động của lực/wrench ở finger tip.
+> Khi flexible beam bị biến dạng, các elastic joints sinh ra restoring torque. Ở trạng thái cân bằng tĩnh, restoring torque này phải cân bằng với torque do external wrench tác dụng lên fingertip.
 
 ### 2. Equation 4 - 5:
 
@@ -291,3 +291,9 @@ nên:
 ```
 
 là **generalized torque do external wrench** tại tip gây ra trên các elastic joints.
+
+
+
+### Q: Why do you need the static equilibrium equation ?
+
+> **Answer:** Because the deformation of the flexible beam is not determined only by the target fingertip pose. The deformation generates elastic restoring torques, which must be balanced by the torque induced by the external wrench at the fingertip. Therefore, the geometric constraint and static equilibrium must be solved simultaneously.
