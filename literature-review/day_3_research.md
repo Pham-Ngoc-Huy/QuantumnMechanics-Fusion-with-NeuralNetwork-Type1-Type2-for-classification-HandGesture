@@ -230,12 +230,13 @@ Trong paper này:
     \end{bmatrix} = 0
     }
    ```
-Equation (7) đang gom 2 điều kiện thành 1 hệ nonlinear:
+
+   Equation (7) đang gom 2 điều kiện thành 1 hệ nonlinear:
 
 ```math
 
 C(\theta,F_{t})
-= 
+=
     \begin{bmatrix}
     y \\
     \tau
@@ -248,10 +249,9 @@ C(\theta,F_{t})
 =0
 ```
 
-Nó bắt hệ phải thõa mãn đồng thời 
+Nó bắt hệ phải thõa mãn đồng thời
 
-1. Geometry 
-
+1. Geometry
 
 ```math
 g_{st,b}(\theta) = g_{t}
@@ -259,7 +259,6 @@ g_{st,b}(\theta) = g_{t}
 ```
 
 $\rightarrow tìm $\theta$ sao cho beam biến dạng đúng cách để tip đạt target pose
-
 
 2. Static equilibrium
 
@@ -271,37 +270,39 @@ K_{\theta} \theta - J_{t}^{T} F_{t} = 0
 
 $\rightarrow$ tìm $F_{t}$ sao cho **elastic restoring torque** của beam cân bằng với **external wrench** tại tip
 
-Vậy: 
+Vậy:
 
 ```math
 
 g_{t} \rightarrow (\theta, F_{t})
 
 ```
+
 > Nhưng không phải $g_t$ tự động cho ra $\theta,F_t$. Ta phải giải hệ nonlinear $C(\theta,F_t)=0$ bằng numerical method, cụ thể paper dùng `Newton--Raphson`. Paper mô tả hệ này có $(n+6)$ unknowns trong spatial case và giảm xuống $(n+3)$ trong planar configuration.
 
-Từ đây mình suy ra 
+Từ đây mình suy ra
 
 ```mermaid
 flowchart TD
     A["TARGET<br>fingertip pose"]
-    
+
     B["KINETO-STATIC MODEL<br>────────────────<br>geometry constraint<br>+<br>force equilibrium"]
-    
+
     C["θ₁, θ₂, ..., θₙ"]
     D["F_t"]
-    
+
     E["beam shape"]
     F["external force"]
 
     A -->|"g_t"| B
     B -->|"Newton-Raphson"| C
     B -->|"Newton-Raphson"| D
-    
+
     C --> E
     D --> F
 
 ```
+
 Paper gọi toàn bộ cái này là `kinetostatic model`
 
 ## Eq.(7) $\rightarrow$ Jacobian $\rightarrow$ Newton-Raphson $\rightarrow$ actual numerical solution
@@ -312,6 +313,7 @@ Từ:
 C(\theta, F_{t}) = 0
 
 ```
+
 > có nghĩa là tìm một trạng thái $(\theta, F_{t})$ sao cho cả **geometry** và **static equilibrium** cùng đúng.
 
 **1. Jacobian đang trả lời câu hỏi gì ?**
@@ -332,6 +334,7 @@ Newton Raphson đang update các unknowns:
 Trong đó $F_{t}$ là external wrench (force + moment)
 
 Nó tìm correlation:
+
 ```math
 \Delta{\theta}, \Delta{F_{t}}
 
@@ -358,3 +361,208 @@ graph TD
     F -- No --> B
     F -- Yes --> G([DONE])
 ```
+
+Paper đang update Newton-Raphson theo dạng:
+
+```math
+x^(k+1) = x^(k) - (\Delta C^(k))^(-1) C^(k)
+```
+
+với
+
+```math
+
+x =
+\begin{bmatrix}
+\theta \\
+F_{t}
+\end{bmatrix}
+```
+
+## Phát triển biểu thức Eq.(8):
+
+```math
+
+\Delta C =
+\begin{bmatrix}
+\frac{\partial y}{\partial \theta} &\frac{\partial y}{\partial F_{t}} \\
+
+\frac{\partial \tau}{\partial \theta} &
+\frac{\partial \tau}{\partial F_{t}}
+
+
+\end{bmatrix}
+
+=
+
+\begin{bmatrix}
+J_{t} & 0 \\
+K_{\theta} - K_J & -J_{t}^{T}
+
+\end{bmatrix}
+```
+
+> Theo paper đang định nghĩa $y$ là pose deviation của beam tip so với target
+
+và Jacobian có:
+
+```math
+\boxed{
+\frac{\partial y}{\partial F_{t}} = 0
+}
+```
+
+**Ý nghĩa**
+
+> Trong phép tuyến tính hoá của formulation này, $y$ phụ thuộc trực tiếp vào $\theta$, chứ không phụ thuộc trực tiếp vào $F_{t}$
+
+Vì:
+
+```math
+g_{st,b}=g_{st,b}(\theta)
+```
+
+nên:
+
+```math
+\theta \rightarrow \text{beam configuration} \rightarrow g_{st,b} \rightarrow y
+```
+
+Trong khi $F_t$ đi vào _static equilibrium_:
+
+```math
+\tau = K_{\theta} \theta - J_{t}^T F_{t}
+```
+
+**Eq.(8) :**
+
+```math
+\begin{bmatrix}
+\Delta y \\
+\Delta \tau
+\end{bmatrix}
+
+=
+
+\begin{bmatrix}
+\boxed{J_t} & \boxed{0} \\
+\boxed{K_{\theta} - K_{J}} & \boxed{-J_{t}^{T}}
+\end{bmatrix}
+
+\begin{bmatrix}
+\Delta \theta \\
+\Delta F_{t}
+\end{bmatrix}
+
+```
+
+Trong đó
+
+**Top row:**
+
+```math
+
+\Delta y = J_{t} \Delta \theta
+```
+
+$\rightarrow$ muốn sửa **pose error**, phải sửa configuration $\theta$
+
+**Bottom row:**
+
+```math
+
+\Delta \tau = (K_{\theta} - K_{J})\Delta \theta - J_{t}^{T} \Delta F_{t}
+
+```
+
+$\rightarrow$ muốn sửa **torque imbalance**, có thể thay đổi cả $\theta$ lẫn $F_{t}$
+
+Paper gọi $K_{J}$ là **configuration-dependent stiffness item**
+
+**Eq(9) :**
+
+Gọi
+
+```math
+x =
+\begin{bmatrix}
+\theta \\
+F_{t}
+\end{bmatrix}
+
+```
+
+và
+
+```math
+C(x) = 0
+
+```
+
+$\rightarrow$
+
+```math
+\boxed{
+    x^{(k+1)} = x^{(k)} - (\nabla C^{(k)})^{-1} C^{(k)}
+}
+```
+
+Tức là:
+
+$x$ = $\begin{bmatrix} \theta \\ F_{t} \end{bmatrix}$
+
+$f(x)$ = $C(\theta, F_{t})$
+
+$f^\prime(x)$ = $\nabla C / Jacobian$
+
+$correction$ = $-(\nabla C)^{-1} C$
+
+$\rightarrow$
+
+```math
+\boxed{
+    x_{i+1} = x_{i} - \frac{f(x)}{f^\prime(x)}
+}
+```
+
+## Conclusion:
+
+Chain:
+
+```math
+\boxed{
+g_{t} \rightarrow C(\theta, F_{t}) = 0
+
+\rightarrow Newton-Raphson \rightarrow (\theta, F_{t})
+
+}
+```
+
+Lí do tồn tại của từng thành phần:
+
+- $g_{t}$: target fingertip pose
+- $\theta$: configuration của equivalent elastic joint mechanism
+- $F_{t}$: external wrench tại fingertip
+- $y$: geometric pose error
+- $\tau$: static torque imbalance
+- $Eq. (7)$: **ép geometry + equilibrium** cùng thoả mãn
+- $Eq. (8)$: Jacobian cho biết các unknown thay đổi $\rightarrow$ residual thay đổi thế nào
+- $Eq. (9)$: Newton-Raphson dùng thông tin đó để update $\theta$, $F_{t}$.
+
+## Vậy thì mô hình flexible beam này thực sự dùng để làm gì trong toàn bộ sensing glove?
+
+### 1. Flexible beam model dùng để làm gì?
+
+Khi ngón tay chuyển động, thì sensor bị biến dạng. Paper dùng **flexible-beam** để mô hình hoá quan hệ giữa:
+
+```math
+
+\boxed{\text{sensor deformation}}\leftrightarrow
+
+\boxed{\text{finger joint motion}}
+
+```
+
+> Paper xây dựng flexible sensor như một equivalent serial mechanism với elastic point. Từ đó họ có thể mô tả:
+> $\theta$ = deformation
+> Kinétostatic model để liên hệ deformation với fingertip pose và external wrench
