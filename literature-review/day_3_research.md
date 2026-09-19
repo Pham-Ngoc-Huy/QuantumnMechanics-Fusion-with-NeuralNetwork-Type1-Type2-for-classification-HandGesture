@@ -549,7 +549,7 @@ Lí do tồn tại của từng thành phần:
 - $Eq. (8)$: Jacobian cho biết các unknown thay đổi $\rightarrow$ residual thay đổi thế nào
 - $Eq. (9)$: Newton-Raphson dùng thông tin đó để update $\theta$, $F_{t}$.
 
-## Vậy thì mô hình flexible beam này thực sự dùng để làm gì trong toàn bộ sensing glove?
+## Q1. Vậy thì mô hình flexible beam này thực sự dùng để làm gì trong toàn bộ sensing glove?
 
 ### 1. Flexible beam model dùng để làm gì?
 
@@ -566,3 +566,112 @@ Khi ngón tay chuyển động, thì sensor bị biến dạng. Paper dùng **fl
 > Paper xây dựng flexible sensor như một equivalent serial mechanism với elastic point. Từ đó họ có thể mô tả:
 > $\theta$ = deformation
 > Kinétostatic model để liên hệ deformation với fingertip pose và external wrench
+
+## Q2. Tại sao không cứ dùng sensor $\rightarrow$ joint angle trực tiếp ?
+
+Sensor thực tế không đo trực tiếp `joint-angle`, nà được trải dài trên finger và bị cong theo finger (flexible-beam).
+
+Nên khi sensor cong, ta quan sát được 1 dạng **deformation/strain-related response**
+
+`Flexible-beam model` đóng vai trò như một **physics-based bridge:**
+
+```math
+\boxed{
+    \text{Finger motion} \rightarrow \text{beam deformation} \rightarrow \text{sensor response}
+}
+```
+
+và ngược lại trong bài toán `reconstruction`:
+
+```math
+\boxed{
+    \text{sensor-related deformation} \rightarrow \text{beam configuration} \rightarrow \text{finger pose}
+}
+
+```
+
+## Q3. Nhưng paper còn dùng nó để giải một vấn đề sâu hơn
+
+> Nếu biết fingertip pose thì beam phải cong như thế nào ?
+
+Vì beam là elastic, nên configuration phải đồng thời thoả:
+
+- geometry
+- static equilibrium
+
+Paper xây dựng:
+
+$C(\theta, F_{t}) = 0$
+
+**Kết luận: architectual của Paper**
+
+```mermaid
+flowchart TD
+A[Real finger motion] --> B[Flexible sensor]
+B --> C[Sensor deformation]
+C --> D[Flexible-beam model]
+E[theta] --> D
+F[F_t] --> D
+D --> G[Finger kinematic representation]
+G --> H[Hand pose / gesture]
+```
+
+> `sensor measurement` $\rightarrow$ Eq. (7) -> `gesture classification` : Workflow không đơn giản như vậy
+
+Paper vẫn còn phần data-driven gesture configuration phía sau.
+
+- Physics/kinematic modelling layer: flexible-beam model
+- Recognition layer: deep learning
+
+## Gap-Indetification:
+
+> Flexible-beam model là **physics-based kinetostatic model**, không nên đơn giản là "động lực học (dynamics)", vì paper đang xét static equilibrium của elastic joints duới external wrench
+
+**Workflow:**
+
+```math
+\boxed{
+    \text{Flexible beam model} \rightarrow
+    \text{physics + kinematics + static equilibrium} \rightarrow
+    (\theta, F_{t})
+}
+```
+
+và nó phải đồng thời thoả:
+
+```math
+\boxed{
+    \text{geometric constraint}
+}
+```
+
+và
+
+```math
+\boxed{
+    \text{static equilibrium}
+}
+```
+
+được gom trong $C(\theta, F_t) = 0 $
+
+### Project hiện tại:
+
+đổi sang 1 concept khác
+
+$\rightarrow$ Thay thế Physical Sensor thành Virutal Sensor (MediaPipe)
+
+> [!Note]
+>
+> Thiết kế **virtual sensing representation** sao cho nó cung cấp các đại lượng tương thích với physics/kinematics model mà ta muốn giữ lại.
+
+Conceptually:
+
+```mermaid
+flowchart TD
+A[MediaPipe landmarks] --> B[Virtual sensor / deformation representation]
+B --> C[physical-based model]
+C --> D[theta, F_t / pose]
+D --> E[gesture recognition]
+E --> F[Unity digital twin]
+```

@@ -292,8 +292,6 @@ nên:
 
 là **generalized torque do external wrench** tại tip gây ra trên các elastic joints.
 
-
-
 ### Q: Why do you need the static equilibrium equation ?
 
 > **Answer:** Because the deformation of the flexible beam is not determined only by the target fingertip pose. The deformation generates elastic restoring torques, which must be balanced by the torque induced by the external wrench at the fingertip. Therefore, the geometric constraint and static equilibrium must be solved simultaneously.
