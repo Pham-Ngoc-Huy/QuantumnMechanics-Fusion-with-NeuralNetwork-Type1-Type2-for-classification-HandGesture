@@ -174,9 +174,9 @@ where `M_{1j}` is the minor obtained by deleting row 1 and column `j` (`get_mino
 
 **Gram–Schmidt** orthogonalization: produces `Q` (orthonormal columns) and upper-triangular `R` (the projection coefficients) such that `A = QR`:
 
+
 ```math
-q_k = \frac{a_k - \sum_{i<k} (a_k \cdot q_i)\, q_i}
-{\lVert a_k - \sum_{i<k} (a_k \cdot q_i)\, q_i \rVert}
+q_k = \frac{a_k - \sum_{i \lt k} (a_k \cdot q_i)\, q_i}{\| a_k - \sum_{i \lt k} (a_k \cdot q_i)\, q_i \|}
 ```
 
 The normalization step is the Euclidean norm; each orthogonal basis vector is built by subtracting the projections (`projection`) of `a_k` onto the already-computed `q_i`.
